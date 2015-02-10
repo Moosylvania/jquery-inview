@@ -1,6 +1,6 @@
-/** 
- * Script to watch a group of elements on scroll and add a 
- * class to them at a specific scroll point, allowing css animations to 
+/**
+ * Script to watch a group of elements on scroll and add a
+ * class to them at a specific scroll point, allowing css animations to
  * be triggered.
  * */
 
@@ -49,7 +49,7 @@
  			var $this = $(this);
  			var when = $this.data('when') || "auto";
  			var screenX = $this.data('screen') || "";
- 			
+
  			function setWhen() {
  				if(when == 'auto') {
 	 				var at = 0;
@@ -62,8 +62,8 @@
 	 			}
  			}
  			setWhen();
- 			
- 			
+
+
  			$this.on('checkScroll', function(e) {
  				if(topPos >= when && !$this.hasClass(settings.addClass)) {
  					$this.addClass(settings.addClass);
@@ -82,6 +82,6 @@
  				setWhen();
  			});
  		});
- 	}
+ 	};
 
  })(jQuery, window);
