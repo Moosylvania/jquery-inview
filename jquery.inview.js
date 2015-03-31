@@ -6,7 +6,7 @@
 
  ;(function($, window, undefined) {
 
- 	var eles = [];
+ 	var eles = $();
  	var $win = $(window);
  	var winX = window.innerHeight;
  	var scrollTimer = null;
@@ -40,7 +40,8 @@
  		var settings = $.extend({
  			addClass: 'show',
  			autoPercent: 0.50, // Percentage from top of the window to trigger animation when set to auto - 1 = bottom, 0 = top
- 			reverse: false // Remove class when scrolling up
+ 			reverse: false, // Remove class when scrolling up
+ 			callbacks: {} // A set of callbacks that can be triggered from a data-ivcallback attribute
  		}, options);
 
  		eles = $(this); // So we can trigger events from our scroll handler.
@@ -67,6 +68,13 @@
  			$this.on('checkScroll', function(e) {
  				if(topPos >= when && !$this.hasClass(settings.addClass)) {
  					$this.addClass(settings.addClass);
+ 					console.log( $this.data('ivcallback') );
+ 					var functionName = $this.data('ivcallback');
+ 					if (typeof settings.callbacks[functionName] === 'function') {
+ 						var fn = settings.callbacks[functionName];
+ 						fn();
+ 					}
+ 					if (typeof settings.callbacks)
  					if(!settings.reverse) {
  						$this.off('checkScroll'); // One less event to check
  					}
