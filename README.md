@@ -2,7 +2,7 @@
 
 ## Description
 
-jQuery plugin that adds a class to elements once they are scrolled into view.
+jQuery plugin that adds a class to elements as they scroll into view. It also optionally supports calling a function when an element is scrolled into view and can work in reverse scrolling back up the page.
 
 ## Usage
 
@@ -32,12 +32,12 @@ Default: 0.50
 
 #### reverse: boolean
 
-Should the class be removed when scrolling back up?
+Should the class be removed when scrolling back up? This also adds support for a callback function to be called when scrolling back up.
 Default: false
 
 #### callbacks: object
 
-Any callbacks that may need called when 'in view' is triggered. Useful if you need to run some javascript for fallback animations or to start a video. Functions are defined in the options object, then on the element that should trigger a callback, add the data attribute 'ivcallback'. See example.
+Any callbacks that may need called when 'in view' is triggered. Useful if you need to run some javascript for fallback animations or to start a video. Callbacks are defined in the options object, then specified on the specific element(s) that should trigger a callback with the data attribute 'ivcallback'. A boolean is passed to the callback function to indicate if the page is scrolling down or back up; if "reverse" is not set to true, the callback will not be invoked when scrolling up. See example.
 Default: {}
 
 ## Examples
@@ -58,9 +58,17 @@ $('.in-view').inView(opts);
 ```javascript
 var opts = {
   callbacks: {
-    playVideo: function(ele) {
+    playVideo: function(ele, scrollingDown) {
+
       // ele is a jQuery reference to the element.
-      ele.get(0).play();
+      // scrollingDown is a boolean that is true if the element was scrolled down into view and false if it is scrolled back up. The callback will not be called in reverse unless the plug-in's reverse option is set to true.
+
+      if (scrollingDown) {
+        ele.show();
+      }
+      else {
+        ele.hide();
+      }
     }
   }
 };

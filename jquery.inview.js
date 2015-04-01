@@ -72,7 +72,7 @@
  					
  					if (typeof settings.callbacks[functionName] === 'function') {
  						var fn = settings.callbacks[functionName];
- 						fn.call(this, $this);
+ 						fn.call(this, $this, true);
  					}
 
  					if(!settings.reverse) {
@@ -82,6 +82,11 @@
  				if(settings.reverse) {
  					if(topPos <= when && $this.hasClass(settings.addClass)) {
  						$this.removeClass(settings.addClass);
+
+ 						if (typeof settings.callbacks[functionName] === 'function') {
+ 							var fn = settings.callbacks[functionName];
+ 							fn.call(this, $this, false);
+ 						}
  					}
  				}
  			})
