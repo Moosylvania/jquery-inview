@@ -50,6 +50,7 @@
  			var $this = $(this);
  			var when = $this.data('when') || "auto";
  			var screenX = $this.data('screen') || "";
+ 			var functionName = $this.data('ivcallback') || "";
 
  			function setWhen() {
  				if(when == 'auto') {
@@ -68,13 +69,12 @@
  			$this.on('checkScroll', function(e) {
  				if(topPos >= when && !$this.hasClass(settings.addClass)) {
  					$this.addClass(settings.addClass);
- 					console.log( $this.data('ivcallback') );
- 					var functionName = $this.data('ivcallback');
+ 					
  					if (typeof settings.callbacks[functionName] === 'function') {
  						var fn = settings.callbacks[functionName];
- 						fn();
+ 						fn.call(this, $this);
  					}
- 					if (typeof settings.callbacks)
+
  					if(!settings.reverse) {
  						$this.off('checkScroll'); // One less event to check
  					}
